@@ -23,10 +23,10 @@ public class Spongebob {
         name = pName;
         xpos = pXpos;
         ypos = pYpos;
-//        dx = (int)(Math.random()*3+1);
-//        dy = (int)(Math.random()*3+1);
-        dx = 3;
-        dy = 3;
+        dx = (int)(Math.random()*2+1);
+        dy = (int)(Math.random()*2+1);
+//        dx = 2;
+//        dy = 2;
         width = 100;
         height = 100;
         isAlive = true;
@@ -38,6 +38,7 @@ public class Spongebob {
 
 
     }
+
 
     public void bounce(){
         xpos = xpos + dx;
@@ -65,6 +66,28 @@ public class Spongebob {
         ypos = ypos + dy;
 
         if (xpos >= 500 - width || xpos<= 0){ // right wall or left wall
+            dx = -dx;
+
+        }
+
+        if (ypos >= 700 - height || ypos<= 0){ // right wall or left wall
+            dy = -dy;
+
+        }
+
+        rec = new Rectangle(xpos, ypos, width, height);
+        topHitBox = new Rectangle(xpos+5,ypos,width-10,5);
+        bottomHitBox = new Rectangle(xpos+5, ypos+height-10, width-10, 5);
+        rightHitBox = new Rectangle(xpos+width-5,ypos,5, height-5);
+        leftHitBox = new Rectangle(xpos, ypos, 5, height-5);
+
+    }
+
+    public void bounce2(){
+        xpos = xpos + dx;
+        ypos = ypos + dy;
+
+        if (xpos <= 600 - width || xpos>= 900){ // right wall or left wall
             dx = -dx;
 
         }

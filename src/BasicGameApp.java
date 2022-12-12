@@ -24,8 +24,12 @@ public class BasicGameApp implements Runnable {
     public Image patPic;
     public Image backgroundPic;
     public Image ballPic;
-    //public Rectangle left;
-    //public Rectangle right;
+    public Image scoreboardPic;
+    public Image confettiPic;
+    public int scoregoal1 = 0;
+    public int scoregoal2 = 0;
+
+
 
 
     //Declare the objects used in the program
@@ -33,6 +37,7 @@ public class BasicGameApp implements Runnable {
     public Spongebob sponge;
     public Spongebob pat;
     public Spongebob ball;
+    public Confetti confet;
 
     public boolean IsTopCrashing = false;
     public boolean IsBottomCrashing = false;
@@ -63,7 +68,12 @@ public class BasicGameApp implements Runnable {
         ballPic = Toolkit.getDefaultToolkit().getImage("ball3.png"); //load the picture
         ball = new Spongebob("patrick", 300, 450);
 
+        confettiPic = Toolkit.getDefaultToolkit().getImage("confetti8.png");
+        confet = new Confetti("confetti",0,0);
+
         backgroundPic = Toolkit.getDefaultToolkit().getImage("basketballcourt.jpeg");
+        scoreboardPic = Toolkit.getDefaultToolkit().getImage("scoreboard.jpeg");
+
 
     }
 
@@ -83,7 +93,7 @@ public class BasicGameApp implements Runnable {
         //calls the move( ) code in the objects
         sponge.bounce1();
         ball.bounce();
-        pat.bounce1();
+        pat.bounce2();
 
 
     }
@@ -169,20 +179,38 @@ public class BasicGameApp implements Runnable {
             pat.ypos = 500;
             ball.xpos = 500;
         ball.ypos = 350;
+            sponge.dx = (int)(Math.random()*2+1);
+            sponge.dy = (int)(Math.random()*2+1);
+            pat.dx = (int)(Math.random()*2+1);
+            pat.dy = (int)(Math.random()*2+1);
+             ball.dx = (int)(Math.random()*2+1);
+            ball.dy = (int)(Math.random()*2+1);
+            scoregoal1 = scoregoal1 + 1;
 
         }
 
         if (ball.rec.intersects(875,300,75,100)){
           System.out.println("BASKET");
+          // print image of score
+            // change speed of ball
             sponge.xpos = 100;
             sponge.ypos = 350;
             pat.xpos = 800;
             pat.ypos = 500;
           ball.xpos = 500;
             ball.ypos = 350;
+            sponge.dx = (int)(Math.random()*2+1);
+            sponge.dy = (int)(Math.random()*2+1);
+            pat.dx = (int)(Math.random()*2+1);
+            pat.dy = (int)(Math.random()*2+1);
+            ball.dx = (int)(Math.random()*2+1);
+            ball.dy = (int)(Math.random()*2+1);
+            scoregoal2 = scoregoal2 + 1;
+            
         }
 
     }
+
 
 
 
@@ -229,48 +257,55 @@ public class BasicGameApp implements Runnable {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         g.drawImage(backgroundPic, 0,0, WIDTH, HEIGHT, null);
+        g.drawImage(scoreboardPic, 0,0, 150, 150, null);
+//        g.drawImage(confettiPic, 0,0, 1000, 1000, null);
 
         //draw the image of the astronaut
         g.drawImage(spongePic, sponge.xpos, sponge.ypos, sponge.width, sponge.height, null);
         g.drawImage(patPic, pat.xpos, pat.ypos, pat.width, pat.height, null);
         g.drawImage(ballPic, ball.xpos,ball.ypos, ball.width, ball.height, null);
 
-        g.drawRect(sponge.rec.x, sponge.rec.y, sponge.rec.width, sponge.rec.height);
-        g.drawRect(pat.rec.x, pat.rec.y, pat.rec.width, pat.rec.height);
-        g.drawRect(ball.rec.x, ball.rec.y, ball.rec.width, ball.rec.height);
+//        g.drawRect(sponge.rec.x, sponge.rec.y, sponge.rec.width, sponge.rec.height);
+//        g.drawRect(pat.rec.x, pat.rec.y, pat.rec.width, pat.rec.height);
+//        g.drawRect(ball.rec.x, ball.rec.y, ball.rec.width, ball.rec.height);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("TimesRoman", Font.BOLD, 25));
+        g.drawString(String.valueOf(scoregoal1), 20, 45);
+       g.drawString(String.valueOf(scoregoal2), 125, 45);
 
         //spongebob
-        g.setColor(Color.GREEN);
-        g.drawRect(sponge.topHitBox.x, sponge.topHitBox.y, sponge.topHitBox.width, sponge.topHitBox.height);
-        g.setColor(Color.RED);
-        g.drawRect(sponge.bottomHitBox.x, sponge.bottomHitBox.y, sponge.bottomHitBox.width, sponge.bottomHitBox.height);
-        g.setColor(Color.BLUE);
-        g.drawRect(sponge.rightHitBox.x, sponge.rightHitBox.y, sponge.rightHitBox.width, sponge.rightHitBox.height);
-        g.setColor(Color.YELLOW);
-        g.drawRect(sponge.leftHitBox.x, sponge.leftHitBox.y, sponge.leftHitBox.width, sponge.leftHitBox.height);
-
-        //patrick
-        g.setColor(Color.GREEN);
-        g.drawRect(pat.topHitBox.x, pat.topHitBox.y, pat.topHitBox.width, pat.topHitBox.height);
-        g.setColor(Color.RED);
-        g.drawRect(pat.bottomHitBox.x, pat.bottomHitBox.y, pat.bottomHitBox.width, sponge.bottomHitBox.height);
-        g.setColor(Color.BLUE);
-        g.drawRect(pat.rightHitBox.x, pat.rightHitBox.y, pat.rightHitBox.width, pat.rightHitBox.height);
-        g.setColor(Color.YELLOW);
-        g.drawRect(pat.leftHitBox.x, pat.leftHitBox.y, pat.leftHitBox.width, pat.leftHitBox.height);
-
-        //ball
-        g.setColor(Color.GREEN);
-        g.drawRect(ball.topHitBox.x, ball.topHitBox.y,ball.topHitBox.width, ball.topHitBox.height);
-        g.setColor(Color.RED);
-        g.drawRect(ball.bottomHitBox.x, ball.bottomHitBox.y, ball.bottomHitBox.width, ball.bottomHitBox.height);
-        g.setColor(Color.BLUE);
-        g.drawRect(ball.rightHitBox.x, ball.rightHitBox.y, ball.rightHitBox.width, ball.rightHitBox.height);
-        g.setColor(Color.YELLOW);
-        g.drawRect(ball.leftHitBox.x, ball.leftHitBox.y, ball.leftHitBox.width, ball.leftHitBox.height);
-
-        g.drawRect(50,300,75,100);
-        g.drawRect(875,300,75,100);
+//        g.setColor(Color.GREEN);
+//        g.drawRect(sponge.topHitBox.x, sponge.topHitBox.y, sponge.topHitBox.width, sponge.topHitBox.height);
+//        g.setColor(Color.RED);
+//        g.drawRect(sponge.bottomHitBox.x, sponge.bottomHitBox.y, sponge.bottomHitBox.width, sponge.bottomHitBox.height);
+//        g.setColor(Color.BLUE);
+//        g.drawRect(sponge.rightHitBox.x, sponge.rightHitBox.y, sponge.rightHitBox.width, sponge.rightHitBox.height);
+//        g.setColor(Color.YELLOW);
+//        g.drawRect(sponge.leftHitBox.x, sponge.leftHitBox.y, sponge.leftHitBox.width, sponge.leftHitBox.height);
+//
+//        //patrick
+//        g.setColor(Color.GREEN);
+//        g.drawRect(pat.topHitBox.x, pat.topHitBox.y, pat.topHitBox.width, pat.topHitBox.height);
+//        g.setColor(Color.RED);
+//        g.drawRect(pat.bottomHitBox.x, pat.bottomHitBox.y, pat.bottomHitBox.width, sponge.bottomHitBox.height);
+//        g.setColor(Color.BLUE);
+//        g.drawRect(pat.rightHitBox.x, pat.rightHitBox.y, pat.rightHitBox.width, pat.rightHitBox.height);
+//        g.setColor(Color.YELLOW);
+//        g.drawRect(pat.leftHitBox.x, pat.leftHitBox.y, pat.leftHitBox.width, pat.leftHitBox.height);
+//
+//        //ball
+//        g.setColor(Color.GREEN);
+//        g.drawRect(ball.topHitBox.x, ball.topHitBox.y,ball.topHitBox.width, ball.topHitBox.height);
+//        g.setColor(Color.RED);
+//        g.drawRect(ball.bottomHitBox.x, ball.bottomHitBox.y, ball.bottomHitBox.width, ball.bottomHitBox.height);
+//        g.setColor(Color.BLUE);
+//        g.drawRect(ball.rightHitBox.x, ball.rightHitBox.y, ball.rightHitBox.width, ball.rightHitBox.height);
+//        g.setColor(Color.YELLOW);
+//        g.drawRect(ball.leftHitBox.x, ball.leftHitBox.y, ball.leftHitBox.width, ball.leftHitBox.height);
+//
+//        g.drawRect(50,312,75,75);
+//        g.drawRect(875,312,75,75);
 
 
 
