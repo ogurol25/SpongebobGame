@@ -28,6 +28,8 @@ public class BasicGameApp implements Runnable {
     public Image confettiPic;
     public int scoregoal1 = 0;
     public int scoregoal2 = 0;
+    public boolean basket = false;
+    public int confettiTimer = 0;
 
 
 
@@ -173,6 +175,7 @@ public class BasicGameApp implements Runnable {
         }
         if (ball.rec.intersects(50,300,75,100)){
             System.out.println("BASKET");
+            basket = true;
             sponge.xpos = 100;
             sponge.ypos = 350;
             pat.xpos = 800;
@@ -183,14 +186,15 @@ public class BasicGameApp implements Runnable {
             sponge.dy = (int)(Math.random()*2+1);
             pat.dx = (int)(Math.random()*2+1);
             pat.dy = (int)(Math.random()*2+1);
-             ball.dx = (int)(Math.random()*2+1);
-            ball.dy = (int)(Math.random()*2+1);
+             ball.dx = (int)(Math.random()*3+1);
+            ball.dy = (int)(Math.random()*3+1);
             scoregoal1 = scoregoal1 + 1;
 
         }
 
         if (ball.rec.intersects(875,300,75,100)){
           System.out.println("BASKET");
+          basket = true;
           // print image of score
             // change speed of ball
             sponge.xpos = 100;
@@ -206,9 +210,16 @@ public class BasicGameApp implements Runnable {
             ball.dx = (int)(Math.random()*2+1);
             ball.dy = (int)(Math.random()*2+1);
             scoregoal2 = scoregoal2 + 1;
-            
         }
 
+        if (basket == true){
+            confettiTimer = confettiTimer + 1;
+        }
+
+        if (confettiTimer>100){
+            confettiTimer = 0;
+            basket = false;
+        }
     }
 
 
@@ -258,6 +269,11 @@ public class BasicGameApp implements Runnable {
 
         g.drawImage(backgroundPic, 0,0, WIDTH, HEIGHT, null);
         g.drawImage(scoreboardPic, 0,0, 150, 150, null);
+
+        if (basket == true && confettiTimer<100) {
+            g.drawImage(confettiPic, 0, 0, WIDTH, HEIGHT, null);
+        }
+
 //        g.drawImage(confettiPic, 0,0, 1000, 1000, null);
 
         //draw the image of the astronaut
